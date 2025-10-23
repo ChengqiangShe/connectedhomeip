@@ -459,7 +459,7 @@ bool DefaultOTARequestorDriver::GetNextProviderLocation(ProviderLocationType & p
 {
     Optional<ProviderLocationType> lastUsedProvider;
     mRequestor->GetProviderLocation(lastUsedProvider);
-    mProviderRetryCount = 0; // Reset provider retry count
+    // mProviderRetryCount = 0; // Reset provider retry count
     listExhausted       = false;
 
     // Iterate through the default providers list and find the last used provider. If found, return the provider after it
@@ -517,6 +517,7 @@ CHIP_ERROR DefaultOTARequestorDriver::ScheduleQueryRetry(bool trySameProvider, S
     if (mProviderRetryCount > kMaxBusyProviderRetryCount)
     {
         ChipLogProgress(SoftwareUpdate, "Max retry of %u exceeded.  Will not retry", kMaxBusyProviderRetryCount);
+        mProviderRetryCount = 0;
         status = CHIP_ERROR_MAX_RETRY_EXCEEDED;
     }
 
